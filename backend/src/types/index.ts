@@ -105,6 +105,7 @@ export interface UpdateVehiculoInput {
   marca?: string;
   modelo?: string;
   anio?: number;
+  placa?: string;
   color?: string;
   kilometraje?: number;
 }

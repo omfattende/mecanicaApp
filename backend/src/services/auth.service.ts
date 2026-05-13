@@ -1,12 +1,12 @@
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { UsuarioRepository } from '../repositories/usuario.repository';
-import { LoginInput, RegisterInput, UsuarioSafe, JwtPayload } from '../types';
+import { LoginInput, RegisterInput, UsuarioSafe, JwtPayload, TipoUsuario } from '../types';
 import { ApiError } from '../middlewares/error.middleware';
 import logger from '../config/logger';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret';
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
+const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN || '24h') as jwt.SignOptions['expiresIn'];
 
 // Opciones de cookie
 export const cookieOptions = {
@@ -41,10 +41,10 @@ export const AuthService = {
     const payload: JwtPayload = {
       id: usuario.id,
       username: usuario.username,
-      tipo: usuario.tipo,
+      tipo: (usuario.tipo as TipoUsuario | null) || TipoUsuario.CLIENTE,
     };
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+    const token = jwt.sign(payload, JWT_SECRET as jwt.Secret, { expiresIn: JWT_EXPIRES_IN });
 
     // Eliminar password del usuario
     const { password: _, ...userWithoutPassword } = usuario;

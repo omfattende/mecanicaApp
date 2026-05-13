@@ -1,22 +1,19 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import logger from './logger';
 
-// Opciones de Prisma según el entorno
-const prismaOptions = {
+// Crear instancia de Prisma
+const prisma = new PrismaClient({
   log: [
     { emit: 'event', level: 'query' },
     { emit: 'event', level: 'error' },
     { emit: 'event', level: 'info' },
     { emit: 'event', level: 'warn' },
-  ] as const,
-};
-
-// Crear instancia de Prisma
-const prisma = new PrismaClient(prismaOptions);
+  ],
+});
 
 // Logging de queries en desarrollo
 if (process.env.NODE_ENV === 'development') {
-  prisma.$on('query', (e: { query: string; params: string; duration: number }) => {
+  prisma.$on('query', (e: Prisma.QueryEvent) => {
     logger.debug('Prisma Query', {
       query: e.query,
       params: e.params,
@@ -26,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Logging de errores
-prisma.$on('error', (e: { message: string }) => {
+prisma.$on('error', (e: Prisma.LogEvent) => {
   logger.error('Prisma Error', { error: e.message });
 });
 

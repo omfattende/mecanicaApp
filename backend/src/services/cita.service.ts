@@ -149,7 +149,7 @@ export const CitaService = {
     }
 
     // Solo permitir eliminar citas pendientes o canceladas
-    const estadosBloqueados = [
+    const estadosBloqueados: EstadoCita[] = [
       EstadoCita.EN_REVISION,
       EstadoCita.ESPERANDO_REPUESTOS,
       EstadoCita.EN_REPARACION,

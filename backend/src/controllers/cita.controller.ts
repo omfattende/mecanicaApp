@@ -65,6 +65,15 @@ export const CitaController = {
   // GET /api/citas/fecha/:fecha
   async getByFecha(req: Request, res: Response): Promise<void> {
     const { fecha } = req.params;
+    if (!fecha) {
+      const response: ApiResponse = {
+        success: false,
+        message: 'Se requiere el parámetro fecha',
+      };
+      res.status(400).json(response);
+      return;
+    }
+
     const citas = await CitaService.getByFecha(fecha);
 
     const response: ApiResponse = {

@@ -271,7 +271,9 @@ export const CitaRepository = {
     };
 
     porEstado.forEach(e => {
-      estadoCounts[e.estado] = e._count.estado;
+      if (e.estado && e.estado in estadoCounts) {
+        estadoCounts[e.estado as EstadoCita] = e._count.estado;
+      }
     });
 
     return {
