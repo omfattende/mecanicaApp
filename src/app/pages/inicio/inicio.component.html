@@ -1,0 +1,265 @@
+<app-navbar></app-navbar>
+
+<div class="inicio-container">
+
+  <!-- ── HERO SECTION ────────────────────────────────── -->
+  <section class="hero-section">
+    <div class="hero-content">
+
+      <div class="hero-eyebrow">
+        <i class="fas fa-wrench"></i>
+        Taller Mecánico Profesional
+      </div>
+
+      <h1 class="hero-title">
+        Tu vehículo en manos<br>
+        de <span class="highlight">expertos</span>
+      </h1>
+
+      <p class="hero-description">
+        Más de 15 años brindando servicio mecánico de calidad. Diagnósticos precisos,
+        reparaciones garantizadas y atención personalizada.
+      </p>
+
+      <div class="hero-buttons">
+        <button class="btn-hero-primary" routerLink="/login">
+          <i class="fas fa-calendar-check"></i>
+          Agendar Cita
+        </button>
+        <button class="btn-hero-outline" (click)="scrollToSection('servicios')">
+          <i class="fas fa-tools"></i>
+          Ver Servicios
+        </button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-text">
+            <strong>5,000+</strong>
+            <span>Clientes Satisfechos</span>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon"><i class="fas fa-star"></i></div>
+          <div class="stat-text">
+            <strong>4.9 / 5</strong>
+            <span>Calificación</span>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon"><i class="fas fa-award"></i></div>
+          <div class="stat-text">
+            <strong>15+</strong>
+            <span>Años de Experiencia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- ── SERVICIOS SECTION ───────────────────────────── -->
+  <section id="servicios" class="servicios-section">
+    <div class="section-header">
+      <div class="section-tag">Lo que ofrecemos</div>
+      <h2>Nuestros Servicios</h2>
+      <p>Soluciones mecánicas completas para todo tipo de vehículos</p>
+    </div>
+    <div class="servicios-grid">
+      <div class="servicio-card" *ngFor="let servicio of servicios">
+        <div class="servicio-icon">
+          <i class="fas" [ngClass]="servicio.icon"></i>
+        </div>
+        <h3>{{ servicio.title }}</h3>
+        <p>{{ servicio.description }}</p>
+        <button class="btn-link">
+          Más información
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── NOSOTROS SECTION ────────────────────────────── -->
+  <section id="nosotros" class="nosotros-section">
+    <div class="nosotros-content">
+      <div class="nosotros-image">
+        <div class="image-placeholder">
+          <i class="fas fa-tools"></i>
+        </div>
+      </div>
+      <div class="nosotros-text">
+        <div class="section-tag">¿Por qué elegirnos?</div>
+        <h2>Calidad y compromiso en cada servicio</h2>
+        <p class="intro">
+          En TallerPro nos dedicamos a brindar el mejor servicio mecánico con tecnología
+          de punta y personal altamente capacitado.
+        </p>
+        <div class="features">
+          <div class="feature">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <h4>Mecánicos Certificados</h4>
+              <p>Personal con certificaciones internacionales y años de experiencia</p>
+            </div>
+          </div>
+          <div class="feature">
+            <i class="fas fa-microchip"></i>
+            <div>
+              <h4>Equipamiento Moderno</h4>
+              <p>Tecnología de última generación para diagnósticos precisos</p>
+            </div>
+          </div>
+          <div class="feature">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+              <h4>Garantía de Servicio</h4>
+              <p>Todos nuestros trabajos cuentan con garantía por escrito</p>
+            </div>
+          </div>
+          <div class="feature">
+            <i class="fas fa-tag"></i>
+            <div>
+              <h4>Precios Competitivos</h4>
+              <p>Calidad profesional a precios justos y transparentes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIOS SECTION ─────────────────────────── -->
+  <section class="testimonios-section">
+    <div class="section-header">
+      <div class="section-tag">Testimonios</div>
+      <h2>Lo Que Dicen Nuestros Clientes</h2>
+      <p>La satisfacción de nuestros clientes es nuestra mejor carta de presentación</p>
+    </div>
+    <div class="testimonios-grid">
+      <div class="testimonio-card" *ngFor="let testimonio of testimonios">
+        <div class="rating">
+          <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]"></i>
+        </div>
+        <p class="comment">"{{ testimonio.comment }}"</p>
+        <div class="author">
+          <div class="author-avatar">
+            <i class="fas" [ngClass]="testimonio.avatar"></i>
+          </div>
+          <span class="author-name">{{ testimonio.name }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACTO SECTION ────────────────────────────── -->
+  <section id="contacto" class="contacto-section">
+    <div class="contacto-content">
+      <div class="contacto-info">
+        <div class="section-tag">Contáctanos</div>
+        <h2>Estamos aquí para ayudarte</h2>
+        <p>Ponte en contacto con nosotros por cualquiera de estos medios.</p>
+
+        <div class="info-items">
+          <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <h4>Dirección</h4>
+              <p>Av. Principal #123, Ciudad</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-phone"></i>
+            <div>
+              <h4>Teléfono</h4>
+              <p>+1 (234) 567-8900</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <h4>Email</h4>
+              <p>contacto&#64;tallerpro.com</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-clock"></i>
+            <div>
+              <h4>Horario</h4>
+              <p>Lun - Vie: 8:00 AM - 6:00 PM<br>Sáb: 9:00 AM - 2:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contacto-cta">
+        <div class="cta-card">
+          <i class="fas fa-calendar-check main-icon"></i>
+          <h3>¿Listo para agendar tu cita?</h3>
+          <p>Regístrate y accede a nuestro sistema de gestión de citas en línea</p>
+          <button class="btn-cta" routerLink="/login">
+            <i class="fas fa-user-plus"></i>
+            Crear Cuenta
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ──────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-brand">
+          <div class="logo"><i class="fas fa-wrench"></i></div>
+          <span>TallerPro</span>
+        </div>
+        <p>Tu taller de confianza desde 2009</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h4>Enlaces Rápidos</h4>
+        <ul>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a routerLink="/login">Iniciar Sesión</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#">Mantenimiento</a></li>
+          <li><a href="#">Reparaciones</a></li>
+          <li><a href="#">Diagnóstico</a></li>
+          <li><a href="#">Emergencias</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h4>Contacto</h4>
+        <ul>
+          <li><i class="fas fa-phone"></i> +1 (234) 567-8900</li>
+          <li><i class="fas fa-envelope"></i> info&#64;tallerpro.com</li>
+          <li><i class="fas fa-map-marker-alt"></i> Av. Principal #123</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2024 TallerPro. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+</div>

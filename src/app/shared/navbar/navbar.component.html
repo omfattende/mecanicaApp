@@ -1,0 +1,68 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand" routerLink="/" (click)="closeMobileMenu()">
+      <div class="logo">
+        <img class="img-fluid" src="imagenes/laimagen.jpg">
+      </div>
+      <span class="brand-name">Refracciones</span>
+    </div>
+
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="navbar-menu" [class.active]="isMobileMenuOpen">
+      <div class="navbar-links">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          (click)="closeMobileMenu()">
+          <i class="fas fa-home"></i>
+          Inicio
+        </a>
+        <a href="#servicios" (click)="closeMobileMenu()">
+          <i class="fas fa-tools"></i>
+          Servicios
+        </a>
+        <a href="#nosotros" (click)="closeMobileMenu()">
+          <i class="fas fa-users"></i>
+          Nosotros
+        </a>
+        <a href="#contacto" (click)="closeMobileMenu()">
+          <i class="fas fa-phone"></i>
+          Contacto
+        </a>
+      </div>
+
+      <div class="navbar-actions">
+        <ng-container *ngIf="!isAuthenticated">
+          <a routerLink="/login" class="btn btn-outline" (click)="closeMobileMenu()">
+            <i class="fas fa-sign-in-alt"></i>
+            Iniciar Sesión
+          </a>
+        </ng-container>
+
+        <ng-container *ngIf="isAuthenticated && currentUser">
+          <div class="user-menu">
+            <button class="user-button" (click)="navigateToDashboard()">
+              <div class="user-avatar">
+                <ng-container *ngIf="currentUser.foto; else iconAvatar">
+                  <img [src]="currentUser.foto" [alt]="currentUser.nombre" class="avatar-img">
+                </ng-container>
+                <ng-template #iconAvatar>
+                  <i class="fas" [ngClass]="currentUser.tipo === 'admin' ? 'fa-user-shield' : 'fa-user'"></i>
+                </ng-template>
+              </div>
+
+              <span class="user-name">{{ currentUser.nombre }}</span>
+            </button>
+            <button class="btn btn-logout" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              Salir
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</nav>

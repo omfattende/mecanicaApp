@@ -1,0 +1,6 @@
+[dotenv@17.3.1] injecting env (7) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+Migrating citas table to add estado...
+✅ Conectado a PostgreSQL
+✅ successfully added estado column to citas
+Creating tareas_servicio table...
+✅ successfully created tareas_servicio table

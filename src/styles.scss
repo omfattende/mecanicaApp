@@ -1,0 +1,86 @@
+/* =============================================
+   TEMA GLOBAL: ROJO, NEGRO Y BLANCO - TallerPro
+   ============================================= */
+
+/* Variables CSS globales */
+:root {
+  --primary-color: #DC2626;
+  --primary-dark: #991B1B;
+  --primary-light: #FEE2E2;
+  --black: #111111;
+  --dark: #1C1C1C;
+  --gray: #4B5563;
+  --light-gray: #F3F4F6;
+  --border: #E5E7EB;
+  --white: #FFFFFF;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Botones globales */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.35);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--black) 0%, #2D0000 100%);
+  color: var(--white);
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Utilidades de color */
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-white {
+  color: var(--white);
+}
+
+.bg-primary {
+  background: var(--primary-color);
+}
+
+.bg-dark {
+  background: var(--black);
+}

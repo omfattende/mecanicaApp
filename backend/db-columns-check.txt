@@ -1,0 +1,1 @@
+Columns in citas: id, usuario_id, vehiculo_id, fecha, hora, servicio, descripcion, estado, created_at, updated_at, repuestos_propios, repuestos_solicitados

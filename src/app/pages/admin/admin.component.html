@@ -1,0 +1,509 @@
+<div class="admin-container">
+  <header class="header">
+    <div class="header-content">
+      <div class="logo-section">
+        <i class="fas fa-wrench"></i>
+        <h1>TallerPro Admin</h1>
+      </div>
+      <div class="user-section">
+        <div class="user-info" *ngIf="currentUser">
+          <div class="user-avatar">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <div class="user-details">
+            <span class="user-name">{{ currentUser.nombre }}</span>
+            <span class="user-type">Administrador</span>
+          </div>
+        </div>
+        <button class="logout-btn" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          Salir
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <nav class="nav-menu">
+        <a class="nav-item" [class.active]="activeSection === 'dashboard'"
+          (click)="setActiveSection('dashboard'); $event.preventDefault()">
+          <i class="fas fa-tachometer-alt"></i>
+          Dashboard
+        </a>
+        <a class="nav-item" [class.active]="activeSection === 'calendario'"
+          (click)="setActiveSection('calendario'); $event.preventDefault()">
+          <i class="fas fa-calendar-alt"></i>
+          Calendario
+        </a>
+        <a class="nav-item" [class.active]="activeSection === 'clientes'"
+          (click)="setActiveSection('clientes'); $event.preventDefault()">
+          <i class="fas fa-users"></i>
+          Gestión de Clientes
+        </a>
+        <a class="nav-item" [class.active]="activeSection === 'vehiculos'"
+          (click)="setActiveSection('vehiculos'); $event.preventDefault()">
+          <i class="fas fa-car"></i>
+          Vehículos
+        </a>
+        <a class="nav-item" [class.active]="activeSection === 'servicios'"
+          (click)="setActiveSection('servicios'); $event.preventDefault()">
+          <i class="fas fa-tools"></i>
+          Servicios
+        </a>
+        <a class="nav-item" [class.active]="activeSection === 'facturas'"
+          (click)="setActiveSection('facturas'); $event.preventDefault()">
+          <i class="fas fa-file-invoice"></i>
+          Facturación
+        </a>
+        <a class="nav-item" [class.active]="activeSection === 'reportes'"
+          (click)="setActiveSection('reportes'); $event.preventDefault()">
+          <i class="fas fa-chart-bar"></i>
+          Reportes
+        </a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <!-- Dashboard Section -->
+      <div *ngIf="activeSection === 'dashboard'" class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-tachometer-alt"></i>
+            Dashboard Administrativo
+          </h2>
+          <p>Resumen general del taller mecánico</p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card primary">
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+              <h3>{{ registeredUsers.length }}</h3>
+              <p>Clientes Registrados</p>
+            </div>
+          </div>
+
+          <div class="stat-card success">
+            <div class="stat-icon">
+              <i class="fas fa-car-side"></i>
+            </div>
+            <div class="stat-info">
+              <h3>0</h3>
+              <p>Vehículos en Servicio</p>
+            </div>
+          </div>
+
+          <div class="stat-card warning">
+            <div class="stat-icon">
+              <i class="fas fa-wrench"></i>
+            </div>
+            <div class="stat-info">
+              <h3>{{ citasActivas.length }}</h3>
+              <p>Servicios Activos</p>
+            </div>
+          </div>
+
+          <div class="stat-card info">
+            <div class="stat-icon">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+            <div class="stat-info">
+              <h3>$0</h3>
+              <p>Ingresos del Mes</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-cards">
+          <div class="dashboard-card">
+            <h3>
+              <i class="fas fa-clock"></i>
+              Actividad Reciente
+            </h3>
+            <div class="activity-list">
+              <div class="activity-item">
+                <i class="fas fa-user-plus"></i>
+                <span>Sistema iniciado correctamente</span>
+                <small>Hace unos momentos</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-card">
+            <h3>
+              <i class="fas fa-calendar-alt"></i>
+              Citas de Hoy
+            </h3>
+            <div class="appointments-list">
+              <div class="empty-state" *ngIf="citasHoy.length === 0">
+                <i class="fas fa-calendar-check"></i>
+                <p>No hay citas programadas para hoy</p>
+              </div>
+
+              <!-- Listado Real de Citas de Hoy -->
+              <div class="today-appointment" *ngFor="let cita of citasHoy">
+                <div>
+                  <strong>{{ cita.hora }} - {{ cita.servicio }}</strong>
+                  <span>{{ cita.cliente_nombre }} ({{ cita.marca }} {{
+                    cita.modelo }})</span>
+                </div>
+                <button class="btn btn-primary" (click)="activeSection = 'calendario'">Ver</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calendario Section -->
+      <div *ngIf="activeSection === 'calendario'" class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-calendar-alt"></i>
+            Calendario de Citas
+          </h2>
+          <p>Gestiona las citas programadas</p>
+        </div>
+        <div class="calendar-container"
+          style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
+      </div>
+
+      <!-- Clientes Section -->
+      <div *ngIf="activeSection === 'clientes'" class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-users"></i>
+            Gestión de Clientes
+          </h2>
+          <p>Administra todos los clientes registrados</p>
+        </div>
+
+        <div class="clients-table" *ngIf="registeredUsers.length > 0; else noClients">
+          <div class="table-header">
+            <div class="table-actions">
+              <button class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                Nuevo Cliente
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Usuario</th>
+                  <th>Email</th>
+                  <th>Teléfono</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of registeredUsers">
+                  <td>{{ user.nombre }}</td>
+                  <td>{{ user.username }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.telefono }}</td>
+                  <td>
+                    <button class="btn-icon btn-edit" (click)="abrirModalUsuario(user)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon btn-delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <ng-template #noClients>
+          <div class="empty-state">
+            <i class="fas fa-users"></i>
+            <h3>No hay clientes registrados</h3>
+            <p>Los clientes que se registren aparecerán aquí</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Vehículos Section -->
+      <div *ngIf="activeSection === 'vehiculos'" class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-car"></i>
+            Gestión de Vehículos Activos
+          </h2>
+          <p>Supervisa todos los vehículos actualmente en servicio</p>
+        </div>
+
+        <div class="active-repairs-section" *ngIf="citasActivas.length > 0; else noActiveRepairs">
+          <div class="repairs-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+            <div *ngFor="let cita of citasActivas" class="repair-card">
+              <div class="repair-header">
+                <div>
+                  <h3>{{ cita.marca }} {{ cita.modelo }}</h3>
+                  <span>{{ cita.placa }} -
+                    <strong>{{ cita.cliente_nombre }}</strong></span>
+                </div>
+                <span class="status-badge" [ngClass]="{
+                    'status-pending': cita.estado === 'Pendiente',
+                    'status-review': cita.estado === 'En revisión',
+                    'status-repair': cita.estado === 'En reparación',
+                    'status-parts': cita.estado === 'Esperando repuestos',
+                    'status-ready': cita.estado === 'Listo para entrega'
+                   }">
+                  {{ cita.estado || 'Pendiente' }}
+                </span>
+              </div>
+
+              <div class="repair-info">
+                <p><i class="fas fa-tools"></i> {{
+                  cita.servicio }}</p>
+                <p><i class="fas fa-calendar-alt"></i>
+                  Ingresó: {{ cita.fecha | date:'mediumDate' }}</p>
+              </div>
+
+              <button class="action-btn primary" (click)="abrirDetallesCita(cita)">
+                <i class="fas fa-edit"></i>
+                Gestionar Servicio
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noActiveRepairs>
+          <div class="empty-state">
+            <i class="fas fa-car-side"></i>
+            <h3>No hay vehículos en el taller</h3>
+            <p>Los vehículos de las citas activas aparecerán aquí</p>
+          </div>
+        </ng-template>
+
+        <!-- Nueva sección: Historial de Entregados -->
+        <div class="completed-repairs-section" style="margin-top: 3rem; margin-bottom: 2rem;">
+          <h3 class="section-subtitle">
+            <i class="fas fa-history"></i> Historial de Vehículos Entregadas
+          </h3>
+
+          <div *ngIf="citasCompletadas.length > 0; else noCompletedRepairs">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Fecha Ingreso</th>
+                    <th>Cliente</th>
+                    <th>Vehículo</th>
+                    <th>Servicio</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cita of citasCompletadas">
+                    <td>{{ cita.fecha | date:'shortDate' }}</td>
+                    <td>{{ cita.cliente_nombre }}</td>
+                    <td>{{ cita.marca }} {{ cita.modelo }} ({{ cita.placa }})</td>
+                    <td>{{ cita.servicio }}</td>
+                    <td>
+                      <span class="status-badge status-delivered">
+                        <i class="fas fa-check-circle"></i> Entregada
+                      </span>
+                    </td>
+                    <td>
+                      <button class="btn btn-secondary" (click)="abrirDetallesCita(cita)"
+                        style="padding: 0.4rem 0.8rem; font-size:0.85rem; border:none; border-radius:4px; font-weight:bold; cursor:pointer;">
+                        Ver Detalles
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <ng-template #noCompletedRepairs>
+            <div class="empty-state-box">
+              No hay historial de vehículos entregados aún.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <!-- Otras secciones -->
+      <div *ngIf="activeSection !== 'dashboard' && activeSection !== 'clientes' && activeSection !== 'vehiculos'"
+        class="section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-hammer"></i>
+            {{ activeSection | titlecase }}
+          </h2>
+          <p>Esta sección estará disponible próximamente</p>
+        </div>
+
+        <div class="coming-soon">
+          <i class="fas fa-tools"></i>
+          <h3>Próximamente</h3>
+          <p>Estamos trabajando en esta funcionalidad</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Modal Detalles de Cita -->
+<div class="modal-overlay" *ngIf="selectedCita">
+  <div class="modal-content cita-details-modal" style="padding: 2rem; margin: auto;">
+    <div class="modal-header"
+      style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1rem;">
+      <h2>Detalles de la Cita</h2>
+      <button class="btn-close" (click)="closeModal()"
+        style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <p><strong>Cliente:</strong> {{ selectedCita.cliente_nombre }}</p>
+      <p><strong>Teléfono:</strong> {{ selectedCita.cliente_telefono }}</p>
+      <p><strong>Vehículo:</strong> {{ selectedCita.marca }} {{ selectedCita.modelo }} ({{ selectedCita.placa }})</p>
+
+      <hr style="margin: 1rem 0;">
+
+      <p><strong>Fecha y Hora:</strong> {{ selectedCita.fecha | date:'mediumDate' }} a las {{ selectedCita.hora }}</p>
+      <p><strong>Servicio:</strong> {{ selectedCita.servicio }}</p>
+      <p><strong>Descripción:</strong> {{ selectedCita.descripcion || 'Ninguna' }}</p>
+
+      <div class="status-control">
+        <label>Estado del Vehículo:</label>
+        <select class="form-control" [(ngModel)]="estadoEdicion">
+          <option *ngFor="let estado of estadosVehiculo" [value]="estado">{{ estado }}</option>
+        </select>
+      </div>
+
+      <div class="repuestos-box"
+        *ngIf="selectedCita.repuestos_solicitados || selectedCita.repuestos_propios">
+        <h4>📦 Repuestos:</h4>
+        <div *ngIf="selectedCita.repuestos_solicitados">
+          <strong>A solicitar al taller:</strong>
+          <p>{{ selectedCita.repuestos_solicitados }}</p>
+        </div>
+        <div *ngIf="selectedCita.repuestos_propios">
+          <strong>Proporcionados por el cliente:</strong>
+          <p>{{ selectedCita.repuestos_propios }}</p>
+        </div>
+      </div>
+
+      <hr style="margin: 1.5rem 0;">
+
+      <!-- Checklist de Reparación -->
+      <div class="tasks-section">
+        <h4>
+          <span>📋 Checklist de Reparación</span>
+          <span class="task-count">
+            {{ tareasCitaList.length }} tareas
+          </span>
+        </h4>
+
+        <div class="tareas-list">
+          <div *ngIf="tareasCitaList.length === 0" class="empty-tareas">
+            No hay tareas registradas aún.
+          </div>
+          <div *ngFor="let tarea of tareasCitaList" class="tarea-item"
+            [class.completada]="tarea.completada">
+            <label>
+              <input type="checkbox" [checked]="tarea.completada" (change)="toggleTareaCompletada(tarea)">
+              <span [class.tachado]="tarea.completada">
+                {{ tarea.descripcion }}
+              </span>
+            </label>
+            <button class="btn-icon btn-delete" (click)="eliminarTarea(tarea.id!)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+
+        <form (ngSubmit)="agregarTarea()" class="add-tarea-form">
+          <input type="text" class="form-control" [(ngModel)]="nuevaTareaDescripcion" name="nuevaTarea"
+            placeholder="Ej: Cambio de filtro de aceite..." required>
+          <button type="submit" class="btn btn-primary" [disabled]="!nuevaTareaDescripcion.trim()">
+            <i class="fas fa-plus"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+
+      <button class="btn btn-primary" (click)="guardarCambiosCita()">
+        <i class="fas fa-save"></i> Guardar Cambios
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar Usuario -->
+<div class="modal-overlay" *ngIf="showUserModal && selectedUser">
+  <div class="modal-content cita-details-modal user-modal">
+    <div class="modal-header">
+      <h2>Editar Cliente</h2>
+      <button class="btn-close" (click)="cerrarModalUsuario()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <form #userForm="ngForm">
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <strong>Advertencia de Seguridad:</strong> Cualquier modificación en el usuario o email cambiará sus
+          credenciales de acceso permanentemente.
+        </div>
+
+        <div class="form-group">
+          <label>Nombre Completo:</label>
+          <input type="text" class="form-control" [(ngModel)]="selectedUser.nombre" name="nombre" required>
+        </div>
+
+        <div class="form-group">
+          <label>Usuario (Login):</label>
+          <input type="text" class="form-control" [(ngModel)]="selectedUser.username" name="username" required>
+        </div>
+
+        <div class="form-group">
+          <label>Correo Electrónico:</label>
+          <input type="email" class="form-control" [(ngModel)]="selectedUser.email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono:</label>
+          <input type="tel" class="form-control" [(ngModel)]="selectedUser.telefono" name="telefono" required>
+        </div>
+
+        <div class="alert alert-info">
+          <i class="fas fa-lock"></i>
+          <strong>Recuperación de Acceso:</strong> Si el usuario olvidó su contraseña, escribe una nueva a continuación.
+          Si la dejas en blanco, conservará la que ya tiene.
+        </div>
+
+        <div class="form-group">
+          <label>Nueva Contraseña (Opcional):</label>
+          <input type="text" class="form-control" [(ngModel)]="selectedUser.password" name="password"
+            placeholder="Escriba aquí para reemplazarla...">
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="cerrarModalUsuario()">Cancelar</button>
+
+      <button class="btn btn-primary" (click)="guardarCambiosUsuario()">
+        <i class="fas fa-exclamation-circle"></i> Aplicar Cambios
+      </button>
+    </div>
+  </div>
+</div>

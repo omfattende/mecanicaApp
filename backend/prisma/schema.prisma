@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id         Int        @id @default(autoincrement())
+  username   String     @unique @db.VarChar(50)
+  email      String     @unique @db.VarChar(100)
+  password   String     @db.VarChar(255)
+  nombre     String     @db.VarChar(100)
+  telefono   String     @db.VarChar(20)
+  tipo       String?    @default("cliente") @db.VarChar(20)
+  created_at DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at DateTime?  @default(now()) @updatedAt @db.Timestamp(6)
+  citas      Cita[]
+  facturas   facturas[]
+  vehiculos  Vehiculo[]
+
+  @@map("usuarios")
+}
+
+model Vehiculo {
+  id          Int       @id @default(autoincrement())
+  usuario_id  Int?
+  marca       String    @db.VarChar(50)
+  modelo      String    @db.VarChar(50)
+  placa       String    @unique @db.VarChar(20)
+  color       String?   @db.VarChar(30)
+  kilometraje Int?
+  created_at  DateTime? @default(now()) @db.Timestamp(6)
+  updated_at  DateTime? @default(now()) @updatedAt @db.Timestamp(6)
+  anio        Int?
+  citas       Cita[]
+  usuario     Usuario?  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map("vehiculos")
+}
+
+model Cita {
+  id                    Int         @id @default(autoincrement())
+  usuario_id            Int?
+  vehiculo_id           Int?
+  fecha                 DateTime    @db.Date
+  hora                  DateTime    @db.Time(6)
+  servicio              String      @db.VarChar(100)
+  descripcion           String?
+  estado                String?     @default("pendiente") @db.VarChar(20)
+  created_at            DateTime?   @default(now()) @db.Timestamp(6)
+  updated_at            DateTime?   @default(now()) @updatedAt @db.Timestamp(6)
+  repuestos_propios     String?
+  repuestos_solicitados String?
+  usuario               Usuario?    @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  vehiculo              Vehiculo?   @relation(fields: [vehiculo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  servicios             servicios[]
+  tareas                Tarea[]
+
+  @@map("citas")
+}
+
+model Tarea {
+  id             Int       @id @default(autoincrement())
+  cita_id        Int?
+  descripcion    String    @db.VarChar(255)
+  completada     Boolean?  @default(false)
+  fecha_creacion DateTime? @default(now()) @db.Timestamp(6)
+  cita           Cita?     @relation(fields: [cita_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@map("tareas_servicio")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model facturas {
+  id            Int        @id @default(autoincrement())
+  usuario_id    Int?
+  servicio_id   Int?
+  total         Decimal    @db.Decimal(10, 2)
+  estado        String?    @default("pendiente") @db.VarChar(20)
+  fecha_emision DateTime?  @default(dbgenerated("CURRENT_DATE")) @db.Date
+  created_at    DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at    DateTime?  @default(now()) @db.Timestamp(6)
+  servicios     servicios? @relation(fields: [servicio_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  usuarios      Usuario?   @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model servicios {
+  id          Int        @id @default(autoincrement())
+  cita_id     Int?
+  descripcion String
+  costo       Decimal    @db.Decimal(10, 2)
+  estado      String?    @default("pendiente") @db.VarChar(20)
+  created_at  DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at  DateTime?  @default(now()) @db.Timestamp(6)
+  facturas    facturas[]
+  citas       Cita?      @relation(fields: [cita_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}

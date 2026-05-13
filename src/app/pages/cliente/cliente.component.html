@@ -1,0 +1,530 @@
+<app-navbar></app-navbar>
+
+<div class="cliente-dashboard">
+  <!-- Hero Section Personalizado -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="welcome-message">
+        <h1>¡Bienvenido de nuevo, <span class="highlight">{{ currentUser?.nombre }}</span>!</h1>
+        <p>Gestiona tus vehículos, citas y servicios desde tu panel personalizado</p>
+      </div>
+      <div class="quick-actions-hero">
+        <button class="action-btn primary" (click)="toggleFormularioCita()">
+          <i class="fas fa-calendar-plus"></i>
+          <span>Agendar Cita</span>
+        </button>
+        <button class="action-btn secondary" (click)="toggleFormularioVehiculo()">
+          <i class="fas fa-car"></i>
+          <span>Mis Vehículos</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="dashboard-content">
+    <!-- Resumen de Cuenta -->
+    <section class="account-summary">
+      <div class="summary-card profile-card">
+        <div class="card-header">
+          <h3>
+            <i class="fas fa-user-circle"></i>
+            Mi Perfil
+          </h3>
+          <button class="btn-edit">
+            <i class="fas fa-edit"></i>
+            Editar
+          </button>
+        </div>
+        <div class="profile-details">
+          <div class="profile-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="profile-info">
+            <div class="info-row">
+              <span class="label">Nombre:</span>
+              <span class="value">{{ currentUser?.nombre }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Usuario:</span>
+              <span class="value">{{ currentUser?.username }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Email:</span>
+              <span class="value">{{ currentUser?.email }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Teléfono:</span>
+              <span class="value">{{ currentUser?.telefono }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-card stats-card">
+        <h3>
+          <i class="fas fa-chart-line"></i>
+          Resumen de Actividad
+        </h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-icon vehicles">
+              <i class="fas fa-car"></i>
+            </div>
+            <div class="stat-data">
+              <span class="stat-number">{{ vehiculos.length }}</span>
+              <span class="stat-label">Vehículos</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon appointments">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="stat-data">
+              <span class="stat-number">0</span>
+              <span class="stat-label">Citas</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon services">
+              <i class="fas fa-tools"></i>
+            </div>
+            <div class="stat-data">
+              <span class="stat-number">0</span>
+              <span class="stat-label">Servicios</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon invoices">
+              <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <div class="stat-data">
+              <span class="stat-number">$0</span>
+              <span class="stat-label">Gastado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Servicios Disponibles -->
+    <section class="services-section">
+      <h2>
+        <i class="fas fa-concierge-bell"></i>
+        Servicios Disponibles
+      </h2>
+      <div class="active-repairs-section" *ngIf="citasActivas.length > 0">
+        <h2>
+          <i class="fas fa-wrench"></i>
+          Vehículos en Taller
+        </h2>
+
+        <div class="repairs-grid"
+          style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+          <div *ngFor="let cita of citasActivas" class="repair-card"
+            style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-color, #007bff);">
+
+            <div class="repair-header"
+              style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+              <div>
+                <h3 style="margin: 0; font-size: 1.25rem;">{{ cita.marca }} {{ cita.modelo }}</h3>
+                <span style="color: #666; font-size: 0.9rem;">{{ cita.placa }}</span>
+              </div>
+              <span class="status-badge" [ngClass]="{
+                  'status-pending': cita.estado === 'Pendiente',
+                  'status-review': cita.estado === 'En revisión',
+                  'status-repair': cita.estado === 'En reparación',
+                  'status-parts': cita.estado === 'Esperando repuestos',
+                  'status-ready': cita.estado === 'Listo para entrega'
+                 }"
+                style="padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold; background: #e9ecef;">
+                {{ cita.estado || 'Pendiente' }}
+              </span>
+            </div>
+
+            <div class="repair-info" style="margin-bottom: 1.5rem;">
+              <p style="margin: 0.5rem 0;"><i class="fas fa-tools" style="width: 20px; color: #666;"></i> {{
+                cita.servicio }}</p>
+              <p style="margin: 0.5rem 0;"><i class="fas fa-calendar-alt" style="width: 20px; color: #666;"></i>
+                Ingresó: {{ cita.fecha | date:'mediumDate' }}</p>
+            </div>
+
+            <button class="action-btn primary" (click)="verDetallesCita(cita)"
+              style="width: 100%; border: none; padding: 0.75rem; border-radius: 6px; cursor: pointer; background: #eef2f5; color: var(--primary-color, #007bff); font-weight: bold; transition: all 0.2s;">
+              <i class="fas fa-search-plus" style="margin-right: 0.5rem;"></i>
+              Ver Seguimiento
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="services-grid" style="margin-top: 2rem;">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-car"></i>
+          </div>
+          <h3>Mis Vehículos</h3>
+          <p>Gestiona la información de todos tus vehículos</p>
+          <div class="service-badge">{{ vehiculos.length }} vehículos</div>
+          <button class="btn-service" (click)="toggleFormularioVehiculo()">
+            <i class="fas fa-plus"></i>
+            Agregar Vehículo
+          </button>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <h3>Programar Servicio</h3>
+          <p>Agenda una nueva visita al taller</p>
+          <button class="btn-service" (click)="toggleFormularioCita()">
+            <i class="fas fa-calendar-plus"></i>
+            Agendar Cita
+          </button>
+        </div>
+
+        <div class="service-card" (click)="activeSection = 'historial'" style="cursor: pointer;">
+          <div class="service-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <h3>Historial</h3>
+          <p>Revisa todos los servicios realizados</p>
+          <div class="service-badge">{{ historialCitas.length }} completados</div>
+          <button class="btn-service">
+            <i class="fas fa-list"></i>
+            Ver Historial
+          </button>
+        </div>
+      </div>
+
+      <!-- Sección de Historial para el Cliente -->
+      <div class="completed-history-section" *ngIf="historialCitas.length > 0" style="margin-top: 3rem;">
+        <h2><i class="fas fa-check-double"></i> Historial de Vehículos Finalizados</h2>
+        <div class="table-container"
+          style="background: white; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="border-bottom: 2px solid #edf2f7;">
+                <th style="padding: 1rem; text-align: left; color: #4a5568;">Fecha Ingreso</th>
+                <th style="padding: 1rem; text-align: left; color: #4a5568;">Vehículo</th>
+                <th style="padding: 1rem; text-align: left; color: #4a5568;">Servicio</th>
+                <th style="padding: 1rem; text-align: center; color: #4a5568;">Estado Final</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cita of historialCitas"
+                style="border-bottom: 1px solid #edf2f7; transition: background-color 0.2s;">
+                <td style="padding: 1rem; color: #1a202c;">{{ cita.fecha | date:'mediumDate' }}</td>
+                <td style="padding: 1rem; font-weight: 500;">{{ cita.marca }} {{ cita.modelo }} <br><small
+                    style="color:#718096">{{ cita.placa }}</small></td>
+                <td style="padding: 1rem; color: #4a5568;">{{ cita.servicio }}</td>
+                <td style="padding: 1rem; text-align: center;">
+                  <span
+                    style="background: #c6f6d5; color: #22543d; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                    <i class="fas fa-check-circle"></i> {{ cita.estado === 'Entregada' ? 'Entregada' : 'Cancelada' }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acciones Rápidas -->
+    <section class="quick-actions-section">
+      <h2>
+        <i class="fas fa-bolt"></i>
+        Acciones Rápidas
+      </h2>
+      <div class="actions-grid">
+        <button class="quick-action-card emergency">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Servicio de Emergencia</span>
+          <small>Disponible 24/7</small>
+        </button>
+        <button class="quick-action-card contact">
+          <i class="fas fa-phone"></i>
+          <span>Contactar Taller</span>
+          <small>Llámanos ahora</small>
+        </button>
+        <button class="quick-action-card quote">
+          <i class="fas fa-calculator"></i>
+          <span>Solicitar Cotización</span>
+          <small>Respuesta rápida</small>
+        </button>
+        <button class="quick-action-card support">
+          <i class="fas fa-headset"></i>
+          <span>Soporte Técnico</span>
+          <small>Estamos para ayudarte</small>
+        </button>
+      </div>
+    </section>
+
+    <!-- Actividad Reciente -->
+    <section class="activity-section">
+      <h2>
+        <i class="fas fa-clock"></i>
+        Actividad Reciente
+      </h2>
+      <div class="activity-card">
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon welcome">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="activity-content">
+              <h4>¡Bienvenido a TallerPro!</h4>
+              <p>Tu cuenta ha sido creada exitosamente</p>
+              <small>Hace unos momentos</small>
+            </div>
+          </div>
+          <div class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <p>No hay más actividad reciente</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Modal / Formulario de Cita -->
+<div class="modal-overlay" *ngIf="mostrarFormularioCita">
+  <div class="modal-content appointment-modal"
+    style="background: white; padding: 2rem; border-radius: 10px; max-width: 500px; margin: 2rem auto;">
+    <div class="modal-header"
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+      <h2>Agendar Nueva Cita</h2>
+      <button class="btn-close" (click)="toggleFormularioCita()"
+        style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+
+    <form (ngSubmit)="agendarCita()" #citaForm="ngForm">
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Vehículo:</label>
+        <select class="form-control" [(ngModel)]="nuevaCita.vehiculo_id" name="vehiculo_id" required
+          style="width: 100%; padding: 0.5rem;" [disabled]="vehiculos.length === 0">
+          <option *ngIf="vehiculos.length === 0" value="undefined" disabled>No tienes vehículos registrados</option>
+          <option *ngFor="let v of vehiculos" [value]="v.id">{{v.marca}} {{v.modelo}} ({{v.placa}})</option>
+        </select>
+        <small *ngIf="vehiculos.length === 0" style="color: red; display: block; margin-top: 0.5rem;">Por favor,
+          registra un vehículo primero.</small>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Fecha:</label>
+        <input type="date" class="form-control" [(ngModel)]="nuevaCita.fecha" name="fecha" required
+          style="width: 100%; padding: 0.5rem;">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Hora:</label>
+        <input type="time" class="form-control" [(ngModel)]="nuevaCita.hora" name="hora" required
+          style="width: 100%; padding: 0.5rem;">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Servicio:</label>
+        <select class="form-control" [(ngModel)]="nuevaCita.servicio" name="servicio" required
+          style="width: 100%; padding: 0.5rem;">
+          <option value="Mantenimiento General">Mantenimiento General</option>
+          <option value="Revisión de Frenos">Revisión de Frenos</option>
+          <option value="Cambio de Aceite">Cambio de Aceite</option>
+          <option value="Diagnóstico Computarizado">Diagnóstico Computarizado</option>
+          <option value="Reparación de Motor">Reparación de Motor</option>
+        </select>
+      </div>
+
+      <hr style="margin: 1.5rem 0;">
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Repuestos a solicitar al taller:</label>
+        <textarea class="form-control" [(ngModel)]="nuevaCita.repuestos_solicitados" name="repuestos_solicitados"
+          placeholder="Ej: Necesito que consigan pastillas de freno para mi carro..." rows="3"
+          style="width: 100%; padding: 0.5rem; resize: vertical;"></textarea>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Repuestos que yo traeré:</label>
+        <textarea class="form-control" [(ngModel)]="nuevaCita.repuestos_propios" name="repuestos_propios"
+          placeholder="Ej: Traigo mi propio aceite sintético..." rows="2"
+          style="width: 100%; padding: 0.5rem; resize: vertical;"></textarea>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Descripción adicional del problema:</label>
+        <textarea class="form-control" [(ngModel)]="nuevaCita.descripcion" name="descripcion" rows="3"
+          style="width: 100%; padding: 0.5rem; resize: vertical;"></textarea>
+      </div>
+
+      <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+        <button type="submit" class="action-btn primary" [disabled]="!citaForm.form.valid"
+          style="background:var(--primary-color, #007bff); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
+          Confirmar Cita
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal / Formulario de Vehículo -->
+<div class="modal-overlay" *ngIf="mostrarFormularioVehiculo">
+  <div class="modal-content vehicle-modal"
+    style="background: white; padding: 2rem; border-radius: 10px; max-width: 500px; margin: 2rem auto;">
+    <div class="modal-header"
+      style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+      <h2>Registrar Nuevo Vehículo</h2>
+      <button class="btn-close" (click)="toggleFormularioVehiculo()"
+        style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+
+    <form (ngSubmit)="registrarVehiculo()" #vehiculoForm="ngForm">
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Marca:</label>
+        <input type="text" class="form-control" [(ngModel)]="nuevoVehiculo.marca" name="marca" placeholder="Ej: Toyota"
+          required style="width: 100%; padding: 0.5rem;">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Modelo:</label>
+        <input type="text" class="form-control" [(ngModel)]="nuevoVehiculo.modelo" name="modelo"
+          placeholder="Ej: Corolla" required style="width: 100%; padding: 0.5rem;">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Año:</label>
+        <input type="number" class="form-control" [(ngModel)]="nuevoVehiculo.anio" name="anio" placeholder="Ej: 2018"
+          required min="1900" [max]="currentYear + 1" style="width: 100%; padding: 0.5rem;">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Placa:</label>
+        <input type="text" class="form-control" [(ngModel)]="nuevoVehiculo.placa" name="placa"
+          placeholder="Ej: ABC-1234" required style="width: 100%; padding: 0.5rem;">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Color (opcional):</label>
+        <input type="text" class="form-control" [(ngModel)]="nuevoVehiculo.color" name="color" placeholder="Ej: Rojo"
+          style="width: 100%; padding: 0.5rem;">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label>Kilometraje (opcional):</label>
+        <input type="number" class="form-control" [(ngModel)]="nuevoVehiculo.kilometraje" name="kilometraje"
+          placeholder="Ej: 50000" style="width: 100%; padding: 0.5rem;">
+      </div>
+
+      <div class="form-actions" style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+        <button type="submit" class="action-btn primary"
+          style="background:var(--primary-color, #007bff); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 5px; cursor: pointer; width: 100%;">
+          Guardar Vehículo
+        </button>
+      </div>
+      <div *ngIf="vehiculoForm.form.invalid && vehiculoForm.form.touched" style="color: red; margin-top: 0.5rem; font-size: 0.85rem;">
+        Por favor completa todos los campos requeridos (Marca, Modelo, Año, Placa).
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Seguimiento de Cita / Visita -->
+<div class="modal-overlay" *ngIf="citaSeleccionada">
+  <div class="modal-content tracking-modal"
+    style="background: white; padding: 2rem; border-radius: 12px; max-width: 600px; margin: 2rem auto; width: 90%;">
+    <div class="modal-header"
+      style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+      <div>
+        <h2 style="margin: 0; font-size: 1.5rem;">Seguimiento de Servicio</h2>
+        <p style="margin: 0.25rem 0 0 0; color: #666;">
+          {{ citaSeleccionada.marca }} {{ citaSeleccionada.modelo }} ({{ citaSeleccionada.placa }})
+        </p>
+      </div>
+      <button class="btn-close" (click)="cerrarModalCita()"
+        style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;">&times;</button>
+    </div>
+
+    <!-- Línea de Progreso Visual (Progress Bar) -->
+    <div class="progress-bar-container" [class.entregada]="citaSeleccionada.estado === 'Entregada'">
+      <h3 class="progress-title">
+        <span *ngIf="citaSeleccionada.estado === 'Entregada'" class="entregada-banner">
+          <i class="fas fa-check-circle"></i> ¡Vehículo Entregado!
+        </span>
+        Estado Actual: <span class="estado-actual" [style.color]="getColorEstado(citaSeleccionada.estado || 'Pendiente').bg">{{ citaSeleccionada.estado || 'Pendiente' }}</span>
+      </h3>
+
+      <div class="progress-steps">
+        <!-- Línea conectora de fondo -->
+        <div class="progress-line"></div>
+
+        <!-- Línea conectora activa (se llena según el índice con gradiente de colores) -->
+        <div class="progress-line-active"
+          [style.width.%]="(getProgresoIndex(citaSeleccionada.estado) / (estadosProgreso.length - 1)) * 100">
+        </div>
+
+        <!-- Nodos de la línea -->
+        <div *ngFor="let estado of estadosProgreso; let i = index" class="progress-step-item"
+          [class.completado]="isPasoCompletado(citaSeleccionada.estado, estado)"
+          [class.paso-actual]="isPasoActual(citaSeleccionada.estado, estado)">
+
+          <div class="step-circle"
+            [style.background]="isPasoCompletado(citaSeleccionada.estado, estado) ? getColorEstado(estado).bg : '#1e1e1e'"
+            [style.border-color]="isPasoCompletado(citaSeleccionada.estado, estado) ? getColorEstado(estado).border : '#333'"
+            [style.color]="isPasoCompletado(citaSeleccionada.estado, estado) ? '#fff' : '#555'"
+            [style.box-shadow]="isPasoActual(citaSeleccionada.estado, estado) ? '0 0 16px ' + getColorEstado(estado).glow : 'none'"
+            [style.animation-delay.s]="citaSeleccionada.estado === 'Entregada' ? i * 0.15 : 0">
+            <i class="fas"
+              [ngClass]="isPasoCompletado(citaSeleccionada.estado, estado) && citaSeleccionada.estado === 'Entregada' ? 'fa-check' : estadoIconos[estado]">
+            </i>
+          </div>
+
+          <span class="step-label"
+            [class.active]="isPasoCompletado(citaSeleccionada.estado, estado)"
+            [class.current]="isPasoActual(citaSeleccionada.estado, estado)"
+            [style.color]="isPasoCompletado(citaSeleccionada.estado, estado) ? getColorEstado(estado).text : '#555'">
+            {{ estado }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checklist del Taller para Cliente -->
+    <div class="tracking-tasks" style="margin-top: 1rem;">
+      <h3
+        style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem;">
+        <i class="fas fa-clipboard-check"></i> Informe del Taller
+      </h3>
+
+      <div *ngIf="tareasCitaSeleccionada.length === 0"
+        style="text-align: center; color: #888; padding: 2rem 0; font-style: italic;">
+        <i class="fas fa-tools" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5; display: block;"></i>
+        El taller aún no ha añadido notas a tu servicio.<br>
+        Las actualizaciones aparecerán aquí.
+      </div>
+
+      <div class="task-list" *ngIf="tareasCitaSeleccionada.length > 0">
+        <div *ngFor="let tarea of tareasCitaSeleccionada" class="task-item"
+          style="display: flex; align-items: flex-start; padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px;"
+          [style.background]="tarea.completada ? '#f0fdf4' : '#f8f9fa'"
+          [style.border-left]="tarea.completada ? '4px solid #22c55e' : '4px solid #ccc'">
+
+          <div style="margin-right: 1rem; margin-top: 0.2rem; min-width: 24px;">
+            <i class="fas fa-check-circle" style="color: #22c55e; font-size: 1.25rem;" *ngIf="tarea.completada"></i>
+            <i class="far fa-circle" style="color: #adb5bd; font-size: 1.25rem;" *ngIf="!tarea.completada"></i>
+          </div>
+
+          <div>
+            <p style="margin: 0; font-weight: 500; font-size: 1.05rem;"
+              [style.color]="tarea.completada ? '#166534' : '#333'">
+              {{ tarea.descripcion }}
+            </p>
+            <span style="font-size: 0.8rem; color: #888; display: block; margin-top: 0.25rem;">
+              {{ tarea.completada ? 'Completado' : 'Pendiente' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

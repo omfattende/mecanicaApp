@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+.vscode
+.idea
+*.md
+.dockerignore
+Dockerfile
+docker-compose*.yml
+setup.sh
+setup.ps1
+backend/

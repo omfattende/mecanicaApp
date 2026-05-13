@@ -1,0 +1,1137 @@
+// ====================================================
+// ADMIN DASHBOARD — NEGRO / ROJO / BLANCO
+// ====================================================
+
+$red: #DC2626;
+$red-dark: #991B1B;
+$red-glow: rgba(220, 38, 38, 0.15);
+$black: #0A0A0A;
+$dark: #111111;
+$dark2: #161616;
+$dark3: #1E1E1E;
+$white: #FFFFFF;
+$gray: #AAAAAA;
+$border: #222222;
+
+// ─── CONTENEDOR ───────────────────────────────────────
+.admin-container {
+  min-height: 100vh;
+  background: $dark;
+}
+
+// ─── HEADER ───────────────────────────────────────────
+.header {
+  background: $black;
+  border-bottom: 1px solid $border;
+  color: $white;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+
+  .header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+  }
+
+  .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    i {
+      font-size: 26px;
+      color: $red;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: $white;
+      letter-spacing: -0.3px;
+    }
+  }
+
+  .user-section {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .user-avatar {
+        width: 38px;
+        height: 38px;
+        background: rgba(220, 38, 38, 0.15);
+        border: 1px solid rgba(220, 38, 38, 0.35);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+          font-size: 16px;
+          color: $red;
+        }
+      }
+
+      .user-details {
+        display: flex;
+        flex-direction: column;
+
+        .user-name {
+          font-weight: 700;
+          font-size: 14px;
+          color: $white;
+        }
+
+        .user-type {
+          font-size: 11px;
+          color: $gray;
+        }
+      }
+    }
+
+    .logout-btn {
+      background: $red;
+      color: $white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.2s;
+
+      &:hover {
+        background: $red-dark;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+      }
+    }
+  }
+}
+
+// ─── LAYOUT ───────────────────────────────────────────
+.admin-layout {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 67px);
+}
+
+// ─── SIDEBAR ──────────────────────────────────────────
+.sidebar {
+  width: 260px;
+  background: $dark2;
+  border-right: 1px solid $border;
+  padding: 24px 0;
+  flex-shrink: 0;
+
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 16px;
+
+    .nav-item {
+      color: $gray;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 16px;
+      border-radius: 10px;
+      transition: all 0.2s;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+
+      &:hover {
+        background: $dark3;
+        color: $white;
+        transform: translateX(4px);
+      }
+
+      &.active {
+        background: rgba(220, 38, 38, 0.15);
+        color: $red;
+        border: 1px solid rgba(220, 38, 38, 0.25);
+
+        i {
+          color: $red;
+        }
+      }
+
+      i {
+        font-size: 16px;
+        width: 18px;
+        color: inherit;
+      }
+    }
+  }
+}
+
+// ─── MAIN CONTENT ─────────────────────────────────────
+.main-content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+}
+
+// ─── SECTION HEADER ───────────────────────────────────
+.section {
+  .section-header {
+    margin-bottom: 28px;
+
+    h2 {
+      color: $white;
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: -0.3px;
+
+      i {
+        color: $red;
+        font-size: 30px;
+      }
+    }
+
+    p {
+      color: $gray;
+      font-size: 15px;
+      margin: 0;
+    }
+  }
+}
+
+// ─── STATS GRID ───────────────────────────────────────
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 36px;
+
+  .stat-card {
+    background: $dark2;
+    border: 1px solid $border;
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    transition: all 0.25s;
+    border-left: 4px solid;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .stat-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      i {
+        font-size: 26px;
+        color: $white;
+      }
+    }
+
+    .stat-info {
+      h3 {
+        margin: 0 0 4px;
+        font-size: 26px;
+        font-weight: 900;
+        color: $white;
+      }
+
+      p {
+        margin: 0;
+        color: $gray;
+        font-weight: 500;
+        font-size: 13px;
+      }
+    }
+
+    &.primary {
+      border-left-color: $red;
+
+      .stat-icon {
+        background: rgba(220, 38, 38, 0.90);
+      }
+    }
+
+    &.success {
+      border-left-color: #22c55e;
+
+      .stat-icon {
+        background: rgba(34, 197, 94, 0.85);
+      }
+    }
+
+    &.warning {
+      border-left-color: #f59e0b;
+
+      .stat-icon {
+        background: rgba(245, 158, 11, 0.85);
+      }
+    }
+
+    &.info {
+      border-left-color: #6366f1;
+
+      .stat-icon {
+        background: rgba(99, 102, 241, 0.85);
+      }
+    }
+  }
+}
+
+// ─── DASHBOARD CARDS ──────────────────────────────────
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 24px;
+
+  .dashboard-card {
+    background: $dark2;
+    border: 1px solid $border;
+    border-radius: 14px;
+    padding: 28px;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: rgba(220, 38, 38, 0.25);
+    }
+
+    h3 {
+      color: $white;
+      margin: 0 0 20px;
+      font-size: 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      i {
+        color: $red;
+        font-size: 20px;
+      }
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid $border;
+
+      i {
+        color: $red;
+        font-size: 15px;
+        width: 18px;
+      }
+
+      span {
+        flex: 1;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 14px;
+      }
+
+      small {
+        color: #555;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+// ─── CLIENTS TABLE ────────────────────────────────────
+.clients-table {
+  background: $dark2;
+  border: 1px solid $border;
+  border-radius: 14px;
+  overflow: hidden;
+
+  .table-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid $border;
+
+    .table-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      thead {
+        background: $dark3;
+
+        th {
+          padding: 16px 24px;
+          text-align: left;
+          font-weight: 700;
+          color: $gray;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          border-bottom: 1px solid $border;
+        }
+      }
+
+      tbody {
+        tr {
+          transition: background 0.2s;
+
+          &:hover {
+            background: $dark3;
+          }
+
+          td {
+            padding: 16px 24px;
+            color: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid $border;
+            font-size: 14px;
+
+            &:last-child {
+              display: flex;
+              gap: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ─── BUTTONS ──────────────────────────────────────────
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+
+  &.btn-primary {
+    background: $red;
+    color: $white;
+
+    &:hover {
+      background: $red-dark;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(220, 38, 38, 0.35);
+    }
+
+    &:disabled {
+      background: #333;
+      cursor: not-allowed;
+      color: #666;
+    }
+  }
+
+  &.btn-secondary {
+    background: $dark3;
+    color: $gray;
+    border: 1px solid $border;
+
+    &:hover {
+      background: $border;
+      color: $white;
+    }
+  }
+}
+
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &.btn-edit {
+    background: rgba(220, 38, 38, 0.12);
+    color: $red;
+    border: 1px solid rgba(220, 38, 38, 0.25);
+
+    &:hover {
+      background: $red;
+      color: $white;
+      transform: translateY(-2px);
+    }
+  }
+
+  &.btn-delete {
+    background: rgba(220, 38, 38, 0.08);
+    color: #ff6b6b;
+    border: 1px solid rgba(220, 38, 38, 0.15);
+
+    &:hover {
+      background: $red;
+      color: $white;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// ─── EMPTY STATE ──────────────────────────────────────
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: $gray;
+
+  i {
+    font-size: 56px;
+    margin-bottom: 18px;
+    color: #333;
+    display: block;
+  }
+
+  h3 {
+    margin: 0 0 10px;
+    color: $white;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  p {
+    margin: 0;
+    font-size: 15px;
+  }
+}
+
+// ─── COMING SOON ──────────────────────────────────────
+.coming-soon {
+  background: $dark2;
+  border: 1px solid $border;
+  border-radius: 16px;
+  padding: 60px;
+  text-align: center;
+
+  i {
+    font-size: 56px;
+    color: $red;
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  h3 {
+    color: $white;
+    margin: 0 0 12px;
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  p {
+    color: $gray;
+    margin: 0;
+    font-size: 15px;
+  }
+}
+
+// ─── CALENDAR CONTAINER ───────────────────────────────
+.calendar-container {
+  background: $dark2 !important;
+  border: 1px solid $border !important;
+  border-radius: 12px !important;
+  color: $white !important;
+}
+
+// ─── REPAIR CARDS ─────────────────────────────────────
+.repair-card {
+  background: $dark2 !important;
+  border: 1px solid $border !important;
+  border-top: 4px solid $red !important;
+  border-radius: 12px !important;
+  color: $white !important;
+
+  h3 {
+    color: $white !important;
+  }
+
+  .status-badge {
+    background: $dark3 !important;
+    color: $gray !important;
+    border: 1px solid $border !important;
+  }
+}
+
+// Status badges
+.status-badge {
+  &.status-pending {
+    background: rgba(220, 38, 38, 0.15) !important;
+    color: #ff6b6b !important;
+  }
+
+  &.status-review {
+    background: rgba(220, 100, 38, 0.15) !important;
+    color: #ffab70 !important;
+  }
+
+  &.status-repair {
+    background: rgba(38, 100, 220, 0.15) !important;
+    color: #70b0ff !important;
+  }
+
+  &.status-parts {
+    background: rgba(155, 100, 38, 0.15) !important;
+    color: #ffcc70 !important;
+  }
+
+  &.status-ready {
+    background: rgba(38, 155, 38, 0.15) !important;
+    color: #70ff8a !important;
+  }
+
+  &.status-delivered {
+    background: rgba(34, 197, 94, 0.15) !important;
+    color: #4ade80 !important;
+    padding: 0.3rem 0.6rem !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+// ─── MODAL STYLES ─────────────────────────────────────
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+}
+
+.modal-content {
+  background: $dark2 !important;
+  border: 1px solid #2a2a2a !important;
+  border-radius: 16px !important;
+  width: 90%;
+  max-width: 620px;
+  max-height: 92vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75) !important;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $dark;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+  }
+
+  h2,
+  h4 {
+    color: $white !important;
+  }
+
+  p,
+  strong {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  hr {
+    border-color: $border !important;
+  }
+
+  .modal-header {
+    border-bottom-color: $border !important;
+  }
+
+  .btn-close {
+    background: $dark3 !important;
+    border: 1px solid $border !important;
+    color: $gray !important;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background: $red !important;
+      color: $white !important;
+    }
+  }
+
+  .form-control {
+    background: $dark3 !important;
+    border: 1px solid #2a2a2a !important;
+    border-radius: 8px !important;
+    color: $white !important;
+    padding: 10px 12px !important;
+
+    &:focus {
+      outline: none !important;
+      border-color: $red !important;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important;
+    }
+
+    option {
+      background: $dark2;
+      color: $white;
+    }
+  }
+
+  label {
+    color: $gray !important;
+    font-size: 13px !important;
+  }
+
+  // Status control panel
+  .status-control {
+    background: $dark3 !important;
+    border-left: 4px solid $red !important;
+    border-radius: 8px !important;
+    padding: 14px !important;
+  }
+
+  // Repuestos box
+  .repuestos-box {
+    margin-top: 1rem !important;
+    padding: 1rem !important;
+    background: $dark3 !important;
+    border: 1px solid $border !important;
+    border-radius: 8px !important;
+    color: $white !important;
+
+    h4 {
+      margin-top: 0 !important;
+      margin-bottom: 0.75rem !important;
+      color: $white !important;
+      font-size: 1rem !important;
+    }
+
+    strong {
+      color: $gray !important;
+      font-size: 0.85rem !important;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.85) !important;
+      margin-bottom: 0.5rem !important;
+      margin-top: 0.25rem !important;
+      font-size: 0.9rem !important;
+    }
+
+    div:last-child p {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  // Alert boxes in modal
+  .alert-warning {
+    background: rgba(180, 120, 10, 0.15) !important;
+    border-color: rgba(180, 120, 10, 0.35) !important;
+    color: #ffd080 !important;
+    border-radius: 8px !important;
+  }
+
+  .alert-info {
+    background: rgba(38, 100, 220, 0.12) !important;
+    border-color: rgba(38, 100, 220, 0.30) !important;
+    color: #80b0ff !important;
+    border-radius: 8px !important;
+  }
+
+  // Tarea items
+  .tarea-item {
+    border-bottom-color: $border !important;
+    color: $white !important;
+
+    input[type="checkbox"] {
+      accent-color: $red;
+    }
+  }
+
+  .tareas-list {
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $dark;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+    }
+  }
+
+  .add-tarea-form .form-control {
+    background: $dark3 !important;
+    border: 1px solid #2a2a2a !important;
+    color: $white !important;
+    border-radius: 6px !important;
+  }
+
+  // Footer buttons
+  .modal-footer {
+    border-top: 1px solid $border;
+    padding-top: 16px;
+    margin-top: 16px;
+  }
+}
+
+// ─── TODAY APPOINTMENTS ───────────────────────────────
+.today-appointment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid $border;
+
+  strong {
+    display: block;
+    color: $white;
+    font-size: 0.95rem;
+  }
+
+  span {
+    color: $gray;
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+// ─── REPAIR CARD INTERNALS ────────────────────────────
+.repair-card {
+  .repair-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: $white !important;
+    }
+
+    span {
+      color: $gray;
+      font-size: 0.9rem;
+      display: block;
+      margin-top: 0.2rem;
+
+      strong {
+        color: $white;
+      }
+    }
+
+    .status-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      background: $dark3;
+      border: 1px solid $border;
+      color: $gray;
+    }
+  }
+
+  .repair-info {
+    margin-bottom: 1.5rem;
+
+    p {
+      margin: 0.5rem 0;
+      color: $gray;
+
+      i {
+        width: 20px;
+        color: $gray;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .action-btn.primary {
+    width: 100%;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    background: rgba(220, 38, 38, 0.12);
+    color: $red;
+    font-weight: bold;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    &:hover {
+      background: $red;
+      color: $white;
+    }
+  }
+}
+
+// ─── COMPLETED REPAIRS SECTION ────────────────────────
+.section-subtitle {
+  border-bottom: 2px solid $border;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  color: $white;
+
+  i {
+    color: $gray;
+    margin-right: 0.5rem;
+  }
+}
+
+.empty-state-box {
+  text-align: center;
+  color: $gray;
+  font-style: italic;
+  padding: 2rem;
+  background: $dark2;
+  border-radius: 8px;
+  border: 1px dashed $border;
+}
+
+// ─── TASKS SECTION ────────────────────────────────────
+.tasks-section {
+  margin-top: 1rem;
+
+  h4 {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $white;
+
+    .task-count {
+      font-size: 0.8rem;
+      background: $dark3;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-weight: normal;
+      color: $gray;
+      border: 1px solid $border;
+    }
+  }
+}
+
+.tareas-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+
+  .empty-tareas {
+    text-align: center;
+    color: $gray;
+    font-style: italic;
+    padding: 1rem;
+  }
+}
+
+.tarea-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-bottom: 1px solid $border;
+  transition: background 0.2s;
+
+  &.completada {
+    background: rgba(34, 197, 94, 0.08);
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+    flex: 1;
+
+    input[type="checkbox"] {
+      margin-right: 0.75rem;
+      width: 1.2rem;
+      height: 1.2rem;
+      cursor: pointer;
+      accent-color: $red;
+    }
+
+    span {
+      color: $white;
+
+      &.tachado {
+        text-decoration: line-through;
+        color: $gray;
+      }
+    }
+  }
+}
+
+.add-tarea-form {
+  display: flex;
+  gap: 0.5rem;
+
+  .form-control {
+    flex: 1;
+  }
+}
+
+// ─── MODAL FOOTER ─────────────────────────────────────
+.modal-footer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid $border;
+  padding-top: 16px;
+
+  .btn-secondary {
+    background: $dark3;
+    border: 1px solid $border;
+    color: $gray;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background: $border;
+      color: $white;
+    }
+  }
+
+  .btn-primary {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+// ─── USER MODAL ───────────────────────────────────────
+.user-modal {
+  max-width: 500px;
+
+  .form-group {
+    margin-bottom: 1rem;
+
+    label {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: block;
+      color: $gray;
+    }
+  }
+}
+
+// ─── RESPONSIVE ───────────────────────────────────────
+@media (max-width: 1024px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 16px 0;
+    border-right: none;
+    border-bottom: 1px solid $border;
+
+    .nav-menu {
+      flex-direction: row;
+      overflow-x: auto;
+      padding: 0 16px;
+      gap: 8px;
+
+      .nav-item {
+        white-space: nowrap;
+        min-width: 130px;
+        justify-content: center;
+      }
+    }
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header .header-content {
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .user-section {
+    flex-direction: column;
+    gap: 14px !important;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .clients-table .table-container table {
+
+    thead th,
+    tbody td {
+      padding: 14px 16px;
+    }
+  }
+}

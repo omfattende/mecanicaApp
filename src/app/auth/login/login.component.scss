@@ -1,0 +1,444 @@
+// ====================================================
+// DISEÑO SPLIT PREMIUM — Imagen | Login
+// ====================================================
+
+$red: #DC2626;
+$red-dark: #991B1B;
+$red-glow: rgba(220, 38, 38, 0.18);
+$black: #0A0A0A;
+$white: #FFFFFF;
+$text-dark: #111111;
+$text-mid: #555555;
+$text-light: #999999;
+$border: #E8E8E8;
+$input-bg: #F7F7F7;
+
+// ─── EVITAR SCROLL DOBLE ─────────────────────────────
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// ─── WRAPPER PRINCIPAL ────────────────────────────────
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// ─── PANEL IZQUIERDO: IMAGEN ──────────────────────────
+.login-image-panel {
+  flex: 1;
+  position: relative;
+  background-image: url('/imagenes/photo-muscular-car-service-worker-repairing-vehicle_575980-42776.avif');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  // Fallback si la imagen no carga
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+
+  // Overlay oscuro para contraste legible
+  .image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg,
+        rgba(0, 0, 0, 0.80) 0%,
+        rgba(0, 0, 0, 0.50) 50%,
+        rgba(0, 0, 0, 0.75) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 44px;
+  }
+
+  .brand-badge {
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid $red;
+      box-shadow: 0 0 20px $red-glow, 0 4px 16px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .image-text {
+    h2 {
+      font-size: 44px;
+      font-weight: 900;
+      color: $white;
+      letter-spacing: -1.5px;
+      margin-bottom: 10px;
+      line-height: 1.1;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 15px;
+      font-weight: 400;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+
+      .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 14px;
+        font-weight: 500;
+
+        i {
+          width: 36px;
+          height: 36px;
+          background: rgba(220, 38, 38, 0.20);
+          border: 1px solid rgba(220, 38, 38, 0.40);
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 15px;
+          color: #ff6b6b;
+          flex-shrink: 0;
+          backdrop-filter: blur(4px);
+        }
+
+        span {
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+      }
+    }
+  }
+}
+
+// ─── PANEL DERECHO: FORMULARIO ────────────────────────
+.login-form-panel {
+  width: 460px;
+  flex-shrink: 0;
+  background: $black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, $red-glow 0%, transparent 65%);
+    bottom: -100px;
+    right: -100px;
+    pointer-events: none;
+  }
+}
+
+// ─── CARD DEL LOGIN ───────────────────────────────────
+.login-card {
+  background: $white;
+  border-radius: 20px;
+  padding: 32px 28px 26px;
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+  z-index: 2;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 25px 70px rgba(0, 0, 0, 0.55),
+    0 0 50px $red-glow;
+  animation: fadeSlideLeft 0.5s cubic-bezier(.22, .68, 0, 1.2) both;
+}
+
+@keyframes fadeSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(30px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+// ─── LOGO / CABECERA ──────────────────────────────────
+.logo-section {
+  text-align: center;
+  margin-bottom: 28px;
+
+  .logo {
+    width: 68px;
+    height: 68px;
+    background: $black;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    border: 3px solid $red;
+    box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.10), 0 8px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.06);
+    }
+
+    i {
+      font-size: 28px;
+      color: $red;
+    }
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 900;
+    color: $text-dark;
+    letter-spacing: -0.5px;
+    margin-bottom: 5px;
+  }
+
+  p {
+    color: $text-light;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+  }
+}
+
+// ─── FORMULARIO ───────────────────────────────────────
+.login-form {
+  .form-group {
+    margin-bottom: 16px;
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: $text-mid;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      i {
+        position: absolute;
+        left: 14px;
+        color: $text-light;
+        font-size: 14px;
+        pointer-events: none;
+        transition: color 0.2s;
+      }
+
+      input {
+        width: 100%;
+        padding: 13px 16px 13px 40px;
+        background: $input-bg;
+        border: 2px solid $border;
+        border-radius: 12px;
+        font-size: 14px;
+        color: $text-dark;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+        box-sizing: border-box;
+
+        &:focus {
+          outline: none;
+          background: #fff;
+          border-color: $red;
+          box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.09);
+        }
+
+        &::placeholder {
+          color: #CCCCCC;
+        }
+      }
+    }
+
+    &:focus-within .input-wrapper i {
+      color: $red;
+    }
+  }
+
+  // Mensajes
+  .success-message {
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #6EE7B7;
+    padding: 11px 14px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 600;
+  }
+
+  .error-message {
+    background: #FEF2F2;
+    color: #991B1B;
+    border: 1px solid #FECACA;
+    padding: 11px 14px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 600;
+  }
+
+  // ─── BOTÓN PRINCIPAL ────────────────────────────────
+  .login-btn {
+    width: 100%;
+    background: $red;
+    color: #fff;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 14px;
+
+    &:hover {
+      background: $red-dark;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(220, 38, 38, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    i {
+      font-size: 16px;
+    }
+  }
+
+  // ─── SEPARADOR ──────────────────────────────────────
+  .divider {
+    position: relative;
+    margin: 4px 0 14px;
+    text-align: center;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: $border;
+    }
+
+    span {
+      background: $white;
+      padding: 0 14px;
+      color: $text-light;
+      font-size: 12px;
+      font-weight: 600;
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+
+  // ─── BOTÓN SECUNDARIO ───────────────────────────────
+  .register-btn {
+    width: 100%;
+    background: transparent;
+    color: $text-dark;
+    border: 2px solid $text-dark;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 16px;
+
+    &:hover {
+      background: $text-dark;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    i {
+      font-size: 15px;
+    }
+  }
+
+  // ─── INFO DEMO ──────────────────────────────────────
+  .demo-info {
+    background: $input-bg;
+    border-radius: 10px;
+    padding: 11px 14px;
+    border-left: 3px solid $red;
+
+    small {
+      color: $text-mid;
+      font-size: 12px;
+      line-height: 1.6;
+
+      strong {
+        color: $red;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+// ─── RESPONSIVE ───────────────────────────────────────
+@media (max-width: 900px) {
+  .login-image-panel {
+    display: none;
+  }
+
+  .login-form-panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 28px 20px 22px;
+    border-radius: 16px;
+  }
+
+  .login-form-panel {
+    padding: 20px 14px;
+  }
+}

@@ -1,0 +1,106 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>
+        <i class="fas fa-user-plus"></i>
+        Crear Cuenta de Cliente
+      </h2>
+      <button class="close-btn" (click)="onClose()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="register-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre">Nombre Completo</label>
+          <input 
+            type="text" 
+            id="nombre" 
+            [(ngModel)]="formData.nombre" 
+            name="nombre"
+            placeholder="Ej: Juan Pérez"
+            required>
+        </div>
+        
+        <div class="form-group">
+          <label for="telefono">Teléfono</label>
+          <input 
+            type="tel" 
+            id="telefono" 
+            [(ngModel)]="formData.telefono" 
+            name="telefono"
+            placeholder="Ej: +1234567890"
+            required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          [(ngModel)]="formData.email" 
+          name="email"
+          placeholder="Ej: juan@email.com"
+          required>
+      </div>
+      
+      <div class="form-group">
+        <label for="username">Usuario</label>
+        <input 
+          type="text" 
+          id="username" 
+          [(ngModel)]="formData.username" 
+          name="username"
+          placeholder="Ej: juanperez"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input 
+          type="password" 
+          id="password" 
+          [(ngModel)]="formData.password" 
+          name="password"
+          placeholder="Mínimo 6 caracteres"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Contraseña</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          [(ngModel)]="formData.confirmPassword" 
+          name="confirmPassword"
+          placeholder="Repite tu contraseña"
+          required>
+      </div>
+      
+      <div class="error-message" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-triangle"></i>
+        {{ errorMessage }}
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="onClose()">
+          Cancelar
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="isLoading">
+          <i class="fas fa-spinner fa-spin" *ngIf="isLoading"></i>
+          <i class="fas fa-user-plus" *ngIf="!isLoading"></i>
+          {{ isLoading ? 'Registrando...' : 'Crear Cuenta' }}
+        </button>
+      </div>
+    </form>
+
+    <div class="info-section">
+      <div class="info-card">
+        <i class="fas fa-info-circle"></i>
+        <p>Al crear una cuenta podrás acceder a nuestros servicios de mecánica y gestionar tus vehículos.</p>
+      </div>
+    </div>
+  </div>
+</div>
